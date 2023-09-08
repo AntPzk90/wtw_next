@@ -1,12 +1,13 @@
-import {combineReducers, configureStore} from '@reduxjs/toolkit'
-import {HYDRATE, createWrapper} from 'next-redux-wrapper'
-import users from './usersSlice'
+import { combineReducers, configureStore } from '@reduxjs/toolkit'
+import { HYDRATE, createWrapper } from 'next-redux-wrapper'
+import user from './usersSlice'
 import counter from './counterSlice'
 import films from './filmsSlice'
+import context from 'react-redux/lib/components/Context'
 
 const combinedReducer = combineReducers({
   counter,
-  users,
+  user,
   films
 })
 
@@ -17,13 +18,14 @@ const masterReducer = (state, action) => {
       counter: {
         count: state.counter.count + action.payload.counter.count
       },
-      users: {
-        // users: [...action.payload.users.users, ...state.users.users]
+      user: {
+        user: { ...action.payload.user.user }
       },
       films: {
         films: action.payload.films.films,
         genre: action.payload.films.genre,
-        promo: action.payload.films.promo
+        promo: action.payload.films.promo,
+        film: action.payload.films.film
       }
     }
     return nextState
@@ -37,4 +39,4 @@ export const makeStore = () =>
     reducer: masterReducer
   })
 
-export const wrapper = createWrapper(makeStore, {debug: true})
+export const wrapper = createWrapper(makeStore, { debug: true })

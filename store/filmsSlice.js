@@ -1,9 +1,11 @@
-import {createSlice} from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   films: [],
   promo: {},
-  genre: 'All genres'
+  genre: 'All genres',
+  myFilms: [],
+  film: {}
 }
 
 export const filmsSlice = createSlice({
@@ -17,11 +19,17 @@ export const filmsSlice = createSlice({
       state.genre = action.payload
     },
     addPromoFilm: (state, action) => {
-      state.promo = {...action.payload}
+      state.promo = { ...action.payload }
+    },
+    addMyFilmsList: (state, action) => {
+      state.myFilms = { ...action.payload }
+    },
+    addFilm: (state, action) => {
+      state.film = { ...action.payload }
     }
   }
 })
 
-export const {addFilms, addActiveGenre, addPromoFilm} = filmsSlice.actions
+export const { addFilms, addActiveGenre, addPromoFilm, addMyFilmsList, addFilm } = filmsSlice.actions
 
 export default filmsSlice.reducer

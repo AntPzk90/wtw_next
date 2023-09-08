@@ -1,10 +1,8 @@
-import {NextResponse} from 'next/server'
+import { NextResponse } from 'next/server'
 
-// This function can be marked `async` if using `await` inside
 export default function middleware(request) {
-  const cookieValue = request.cookies.get('jwt')?.value
-  console.log('cookies ====================================================', cookieValue)
-  if (!cookieValue) {
+  const cookieJWT = request.cookies.get('jwt')?.value
+  if (cookieJWT) {
     return NextResponse.redirect(new URL('/', request.url))
   }
 }
