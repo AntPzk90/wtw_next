@@ -38,7 +38,7 @@ function AuthBlock() {
               placeholder='Email address'
               name='user-email'
               id='user-email'
-              onKeyPress={() => {
+              onChange={() => {
                 setEmail(emailInput.current.value)
               }}
               ref={emailInput}
@@ -54,7 +54,7 @@ function AuthBlock() {
               placeholder='Password'
               name='user-password'
               id='user-password'
-              onKeyPress={() => {
+              onChange={() => {
                 setPass(passInput.current.value)
               }}
               ref={passInput}

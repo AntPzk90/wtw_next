@@ -1,8 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { USER_STATUS } from '../constants/constants'
 
 const initialState = {
   user: {
-    token: null
+    token: USER_STATUS.noAuth
   }
 }
 

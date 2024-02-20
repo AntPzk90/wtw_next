@@ -5,7 +5,8 @@ const initialState = {
   promo: {},
   genre: 'All genres',
   myFilms: [],
-  film: {}
+  film: {},
+  comments: []
 }
 
 export const filmsSlice = createSlice({
@@ -15,6 +16,9 @@ export const filmsSlice = createSlice({
     addFilms: (state, action) => {
       state.films = [...action.payload]
     },
+    updateFilms: (state, action) => {
+      state.films = [...action.payload]
+    },
     addActiveGenre: (state, action) => {
       state.genre = action.payload
     },
@@ -22,14 +26,25 @@ export const filmsSlice = createSlice({
       state.promo = { ...action.payload }
     },
     addMyFilmsList: (state, action) => {
-      state.myFilms = { ...action.payload }
+      state.myFilms = [...action.payload]
     },
     addFilm: (state, action) => {
       state.film = { ...action.payload }
+    },
+    addComments: (state, action) => {
+      state.comments = [...action.payload]
     }
   }
 })
 
-export const { addFilms, addActiveGenre, addPromoFilm, addMyFilmsList, addFilm } = filmsSlice.actions
+export const {
+  addFilms,
+  updateFilms,
+  addActiveGenre,
+  addPromoFilm,
+  addMyFilmsList,
+  addFilm,
+  addComments
+} = filmsSlice.actions
 
 export default filmsSlice.reducer

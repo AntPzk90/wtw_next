@@ -3,7 +3,7 @@ import Head from 'next/head'
 import { useSelector } from 'react-redux'
 import { wrapper } from '../store/store'
 import { addFilms, addPromoFilm } from '../store/filmsSlice'
-import { fetchFilms } from '../api/api'
+import { fetchFilms, fetchPromoFilm } from '../api/api'
 
 import Layout from '../components/Layout'
 import FilmsListBlock from '../components/_blocks/films-list-block/FilmsListBlock'
@@ -30,9 +30,10 @@ const Index = () => {
 export default Index
 
 export const getServerSideProps = wrapper.getServerSideProps((store) => {
-  return async () => {
-    const response = fetchFilms('GET', 'https://9.react.pages.academy/wtw/films')
-    const responsePromo = fetchFilms('GET', 'https://9.react.pages.academy/wtw/promo')
+  return async (context) => {
+    const cookieJWT = context.req.cookies.jwt
+    const response = fetchFilms('GET', 'https://9.react.pages.academy/wtw/films', cookieJWT)
+    const responsePromo = fetchPromoFilm('GET', 'https://9.react.pages.academy/wtw/promo', cookieJWT)
     const data = await response
     const dataPromo = await responsePromo
     store.dispatch(addFilms(data))

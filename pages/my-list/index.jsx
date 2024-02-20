@@ -1,25 +1,18 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Head from 'next/head'
-import { useDispatch, useSelector } from 'react-redux'
+import { wrapper } from '../../store/store'
+import { useSelector } from 'react-redux'
 
 import { fetchMyListFilms } from '../../api/api'
 import { addMyFilmsList } from '../../store/filmsSlice'
 
 import Sprite from '../../components/sprite/Sprite'
 import Layout from '../../components/Layout'
+import FilmsListBlock from '../../components/_blocks/films-list-block/FilmsListBlock'
 
 
 function MyList() {
-  const dispatch = useDispatch()
-  const { user } = useSelector((state) => state.user)
-
-  useEffect(() => {
-    const token = user.token
-    const myList = fetchMyListFilms('GET', 'https://9.react.pages.academy/wtw/favorite', token)
-    myList.then((res) => {
-      dispatch(addMyFilmsList(res))
-    })
-  }, [])
+  const { myFilms, genre } = useSelector((state) => state.films)
 
   return (
     <>
@@ -33,7 +26,7 @@ function MyList() {
       <Sprite />
       <Layout>
         <section className='catalog'>
-          <h1>My list</h1>
+          <FilmsListBlock films={myFilms} activeGenre={genre} />
         </section>
       </Layout>
     </>
@@ -41,3 +34,12 @@ function MyList() {
 }
 
 export default MyList
+
+export const getServerSideProps = wrapper.getServerSideProps((store) => {
+  return async (context) => {
+    const cookieJWT = context.req.cookies.jwt
+    const response = fetchMyListFilms('GET', 'https://9.react.pages.academy/wtw/favorite', cookieJWT)
+    const data = await response
+    store.dispatch(addMyFilmsList(data))
+  }
+})

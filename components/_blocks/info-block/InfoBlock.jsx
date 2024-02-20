@@ -1,8 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import InfoOverview from '../../info/overview/InfoOverview'
+import InfoDetails from '../../info/details/InfoDetails'
+import InfoReviews from '../../info/reviews/InfoReviews'
+import { FILM_PAGE_TABS } from '../../../constants/constants'
 
-function InfoBlock({ film }) {
-  console.log(film)
+function InfoBlock({ film, comments }) {
+  const [activeTab, setActiveTab] = useState(FILM_PAGE_TABS.overview)
+
   return (
     <>
       <div className='movie-card'>
@@ -14,30 +18,46 @@ function InfoBlock({ film }) {
             <div className='movie-card__desc'>
               <nav className='movie-nav movie-card__nav'>
                 <ul className='movie-nav__list'>
-                  <li className='movie-nav__item movie-nav__item--active'>
-                    <a href='#' className='movie-nav__link'>
+                  <li
+                    className={`movie-nav__item ${activeTab === FILM_PAGE_TABS.overview && 'movie-nav__item--active'}`}>
+                    <a className='movie-nav__link' onClick={() => setActiveTab(FILM_PAGE_TABS.overview)}>
                       Overview
                     </a>
                   </li>
-                  <li className='movie-nav__item'>
-                    <a href='#' className='movie-nav__link'>
+                  <li
+                    className={`movie-nav__item ${activeTab === FILM_PAGE_TABS.details && 'movie-nav__item--active'}`}>
+                    <a className='movie-nav__link' onClick={() => setActiveTab(FILM_PAGE_TABS.details)}>
                       Details
                     </a>
                   </li>
-                  <li className='movie-nav__item'>
-                    <a href='#' className='movie-nav__link'>
+                  <li
+                    className={`movie-nav__item ${activeTab === FILM_PAGE_TABS.reviews && 'movie-nav__item--active'}`}>
+                    <a className='movie-nav__link' onClick={() => setActiveTab(FILM_PAGE_TABS.reviews)}>
                       Reviews
                     </a>
                   </li>
                 </ul>
               </nav>
-              <InfoOverview
-                rating={film.rating}
-                scoresCount={film.scoresCount}
-                description={film.description}
-                director={film.director}
-                starring={film.starring}
-              />
+              {activeTab === FILM_PAGE_TABS.overview &&
+                <InfoOverview
+                  rating={film.rating}
+                  scoresCount={film.scoresCount}
+                  description={film.description}
+                  director={film.director}
+                  starring={film.starring}
+                />}
+              {activeTab === FILM_PAGE_TABS.details &&
+                <InfoDetails
+                  director={film.director}
+                  starring={film.starring}
+                  runtime={film.runTime}
+                  released={film.released}
+                  genre={film.genre}
+                />
+              }
+              {activeTab === FILM_PAGE_TABS.reviews &&
+                <InfoReviews comments={comments} />
+              }
             </div>
           </div>
         </div>
